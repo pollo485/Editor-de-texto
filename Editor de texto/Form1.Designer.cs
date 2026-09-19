@@ -68,6 +68,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivoToolStripMenuItem,
@@ -77,7 +78,7 @@
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(969, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(1071, 40);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -90,7 +91,7 @@
             this.sToolStripMenuItem,
             this.salirToolStripMenuItem});
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(110, 38);
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(110, 36);
             this.archivoToolStripMenuItem.Text = "Archivo";
             // 
             // nuevaVentanaToolStripMenuItem
@@ -137,7 +138,7 @@
             this.deshacerToolStripMenuItem,
             this.repetirToolStripMenuItem});
             this.ediciónToolStripMenuItem.Name = "ediciónToolStripMenuItem";
-            this.ediciónToolStripMenuItem.Size = new System.Drawing.Size(107, 38);
+            this.ediciónToolStripMenuItem.Size = new System.Drawing.Size(107, 36);
             this.ediciónToolStripMenuItem.Text = "Edición";
             // 
             // cortarToolStripMenuItem
@@ -181,7 +182,7 @@
             this.fuenteToolStripMenuItem,
             this.colorDeFuenteToolStripMenuItem});
             this.formatoToolStripMenuItem.Name = "formatoToolStripMenuItem";
-            this.formatoToolStripMenuItem.Size = new System.Drawing.Size(119, 38);
+            this.formatoToolStripMenuItem.Size = new System.Drawing.Size(119, 36);
             this.formatoToolStripMenuItem.Text = "Formato";
             // 
             // fuenteToolStripMenuItem
@@ -203,7 +204,7 @@
             this.análisisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lexicoToolStripMenuItem});
             this.análisisToolStripMenuItem.Name = "análisisToolStripMenuItem";
-            this.análisisToolStripMenuItem.Size = new System.Drawing.Size(109, 38);
+            this.análisisToolStripMenuItem.Size = new System.Drawing.Size(109, 36);
             this.análisisToolStripMenuItem.Text = "Análisis";
             // 
             // lexicoToolStripMenuItem
@@ -218,7 +219,7 @@
             this.ayudaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.acercaDeToolStripMenuItem});
             this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(97, 38);
+            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(97, 36);
             this.ayudaToolStripMenuItem.Text = "Ayuda";
             // 
             // acercaDeToolStripMenuItem
@@ -236,11 +237,11 @@
             this.tableLayoutPanel1.Controls.Add(this.richTextBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 42);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 40);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(969, 452);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1071, 525);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // richTextBox1
@@ -249,7 +250,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(3, 3);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(531, 446);
+            this.richTextBox1.Size = new System.Drawing.Size(531, 519);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -268,7 +269,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(426, 446);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(528, 519);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // dgvSintactico
@@ -277,14 +278,14 @@
             this.dgvSintactico.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvSintactico.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSintactico.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSintactico.Location = new System.Drawing.Point(4, 271);
+            this.dgvSintactico.Location = new System.Drawing.Point(4, 314);
             this.dgvSintactico.Margin = new System.Windows.Forms.Padding(4);
             this.dgvSintactico.Name = "dgvSintactico";
             this.dgvSintactico.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvSintactico.RowHeadersVisible = false;
             this.dgvSintactico.RowHeadersWidth = 62;
             this.dgvSintactico.RowTemplate.Height = 28;
-            this.dgvSintactico.Size = new System.Drawing.Size(418, 171);
+            this.dgvSintactico.Size = new System.Drawing.Size(520, 201);
             this.dgvSintactico.TabIndex = 6;
             // 
             // dgvErrores
@@ -293,13 +294,13 @@
             this.dgvErrores.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvErrores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvErrores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvErrores.Location = new System.Drawing.Point(4, 182);
+            this.dgvErrores.Location = new System.Drawing.Point(4, 211);
             this.dgvErrores.Margin = new System.Windows.Forms.Padding(4);
             this.dgvErrores.Name = "dgvErrores";
             this.dgvErrores.RowHeadersVisible = false;
             this.dgvErrores.RowHeadersWidth = 62;
             this.dgvErrores.RowTemplate.Height = 28;
-            this.dgvErrores.Size = new System.Drawing.Size(418, 81);
+            this.dgvErrores.Size = new System.Drawing.Size(520, 95);
             this.dgvErrores.TabIndex = 5;
             // 
             // dgvPalabras
@@ -315,7 +316,7 @@
             this.dgvPalabras.RowHeadersVisible = false;
             this.dgvPalabras.RowHeadersWidth = 62;
             this.dgvPalabras.RowTemplate.Height = 28;
-            this.dgvPalabras.Size = new System.Drawing.Size(418, 170);
+            this.dgvPalabras.Size = new System.Drawing.Size(520, 199);
             this.dgvPalabras.TabIndex = 4;
             // 
             // Form1
@@ -323,7 +324,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(80)))), ((int)(((byte)(52)))));
-            this.ClientSize = new System.Drawing.Size(969, 494);
+            this.ClientSize = new System.Drawing.Size(1071, 565);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

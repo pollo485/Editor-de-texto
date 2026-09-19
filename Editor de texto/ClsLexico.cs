@@ -32,7 +32,6 @@ namespace Editor_de_texto
                 {14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,                    427} , 
                 {428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428,428, 122} 
         };
-
         Dictionary<string, (string palC, int tok)> dicPalabrasReservadas = new Dictionary<string, (string, int)>()
         {
             {"entero",      ("int",         200)},
@@ -52,11 +51,17 @@ namespace Editor_de_texto
             {"potencia",    ("^",           214)},
             {"cuchara",     ("var",         215)},
             {"inicio",      ("begin",       216)},
-            {"fin",         ("end",         217)},
-            {"imprimir",    ("PRINT",       218)},
-            {"leer",        ("READ",        219)},
-            {"metodo",      ("PROCEDURE",   220)},
-            {"devolver",    ("RET",         221)}
+            {"iniM",        ("begin",       217)},
+            {"iniS",        ("begin",       218)},
+            {"iniC",        ("begin",       219)},
+            {"fin",         ("end",         220)},
+            {"finM",        ("end",         221)},
+            {"finS",        ("end",         222)},
+            {"finC",        ("end",         223)},
+            {"imprimir",    ("PRINT",       224)},
+            {"leer",        ("READ",        225)},
+            {"metodo",      ("PROCEDURE",   226)},
+            {"devolver",    ("RET",         227)}
         };
         Dictionary<int, string> dicErrores = new Dictionary<int, string>()
         {
@@ -189,7 +194,7 @@ namespace Editor_de_texto
                             }
                         }
                     }
-                    else if (estado >= 107 && estado <= 111)
+                    else if (estado >= 107 && estado <= 112)
                     {
                         if (estado == 107 || estado == 109)
                         {
@@ -228,7 +233,7 @@ namespace Editor_de_texto
                                 }
                             }
                         }
-                        else if (estado == 108 || estado == 110 || estado == 111)
+                        else if (estado == 108 || estado == 110 || estado == 111 || estado == 112)
                         {
                             // Estados SIN retroceso: >= , <= , <>
                             // El caracterActual (= o >) YA forma parte del token, se agrega a palabra
