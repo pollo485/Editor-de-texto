@@ -54,15 +54,30 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.dgvSintactico = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.dgvErrores = new System.Windows.Forms.DataGridView();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.dgvPalabras = new System.Windows.Forms.DataGridView();
+            this.dgvSintactico = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.dgvVariables = new System.Windows.Forms.DataGridView();
+            this.listBLista = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSintactico)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPalabras)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSintactico)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -78,7 +93,7 @@
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1071, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1071, 42);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -236,12 +251,15 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.richTextBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 40);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 42);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1071, 525);
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1071, 523);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // richTextBox1
@@ -250,7 +268,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(3, 3);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(531, 519);
+            this.richTextBox1.Size = new System.Drawing.Size(531, 307);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -259,34 +277,25 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.dgvSintactico, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.dgvErrores, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.dgvPalabras, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.panel5, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.panel4, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(540, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(528, 519);
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(528, 307);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
-            // dgvSintactico
+            // panel1
             // 
-            this.dgvSintactico.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvSintactico.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvSintactico.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSintactico.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSintactico.Location = new System.Drawing.Point(4, 314);
-            this.dgvSintactico.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvSintactico.Name = "dgvSintactico";
-            this.dgvSintactico.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dgvSintactico.RowHeadersVisible = false;
-            this.dgvSintactico.RowHeadersWidth = 62;
-            this.dgvSintactico.RowTemplate.Height = 28;
-            this.dgvSintactico.Size = new System.Drawing.Size(520, 201);
-            this.dgvSintactico.TabIndex = 6;
+            this.panel1.Controls.Add(this.dgvErrores);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 316);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(531, 204);
+            this.panel1.TabIndex = 4;
             // 
             // dgvErrores
             // 
@@ -294,14 +303,47 @@
             this.dgvErrores.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvErrores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvErrores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvErrores.Location = new System.Drawing.Point(4, 211);
+            this.dgvErrores.Location = new System.Drawing.Point(0, 0);
             this.dgvErrores.Margin = new System.Windows.Forms.Padding(4);
             this.dgvErrores.Name = "dgvErrores";
             this.dgvErrores.RowHeadersVisible = false;
             this.dgvErrores.RowHeadersWidth = 62;
             this.dgvErrores.RowTemplate.Height = 28;
-            this.dgvErrores.Size = new System.Drawing.Size(520, 95);
-            this.dgvErrores.TabIndex = 5;
+            this.dgvErrores.Size = new System.Drawing.Size(531, 204);
+            this.dgvErrores.TabIndex = 6;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel3.Controls.Add(this.panel3, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.panel2, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(540, 316);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(528, 204);
+            this.tableLayoutPanel3.TabIndex = 5;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.dgvPalabras);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(522, 147);
+            this.panel4.TabIndex = 0;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.dgvSintactico);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(3, 156);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(522, 148);
+            this.panel5.TabIndex = 1;
             // 
             // dgvPalabras
             // 
@@ -309,15 +351,74 @@
             this.dgvPalabras.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvPalabras.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPalabras.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPalabras.Location = new System.Drawing.Point(4, 4);
+            this.dgvPalabras.Location = new System.Drawing.Point(0, 0);
             this.dgvPalabras.Margin = new System.Windows.Forms.Padding(4);
             this.dgvPalabras.Name = "dgvPalabras";
             this.dgvPalabras.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvPalabras.RowHeadersVisible = false;
             this.dgvPalabras.RowHeadersWidth = 62;
             this.dgvPalabras.RowTemplate.Height = 28;
-            this.dgvPalabras.Size = new System.Drawing.Size(520, 199);
-            this.dgvPalabras.TabIndex = 4;
+            this.dgvPalabras.Size = new System.Drawing.Size(522, 147);
+            this.dgvPalabras.TabIndex = 6;
+            // 
+            // dgvSintactico
+            // 
+            this.dgvSintactico.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvSintactico.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvSintactico.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSintactico.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSintactico.Location = new System.Drawing.Point(0, 0);
+            this.dgvSintactico.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvSintactico.Name = "dgvSintactico";
+            this.dgvSintactico.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgvSintactico.RowHeadersVisible = false;
+            this.dgvSintactico.RowHeadersWidth = 62;
+            this.dgvSintactico.RowTemplate.Height = 28;
+            this.dgvSintactico.Size = new System.Drawing.Size(522, 148);
+            this.dgvSintactico.TabIndex = 8;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.dgvVariables);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(205, 198);
+            this.panel2.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.listBLista);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(214, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(311, 198);
+            this.panel3.TabIndex = 1;
+            // 
+            // dgvVariables
+            // 
+            this.dgvVariables.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvVariables.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvVariables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvVariables.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvVariables.Location = new System.Drawing.Point(0, 0);
+            this.dgvVariables.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvVariables.Name = "dgvVariables";
+            this.dgvVariables.RowHeadersVisible = false;
+            this.dgvVariables.RowHeadersWidth = 62;
+            this.dgvVariables.RowTemplate.Height = 28;
+            this.dgvVariables.Size = new System.Drawing.Size(205, 198);
+            this.dgvVariables.TabIndex = 7;
+            // 
+            // listBLista
+            // 
+            this.listBLista.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBLista.FormattingEnabled = true;
+            this.listBLista.ItemHeight = 29;
+            this.listBLista.Location = new System.Drawing.Point(0, 0);
+            this.listBLista.Name = "listBLista";
+            this.listBLista.Size = new System.Drawing.Size(311, 198);
+            this.listBLista.TabIndex = 0;
             // 
             // Form1
             // 
@@ -337,9 +438,16 @@
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSintactico)).EndInit();
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrores)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPalabras)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSintactico)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -371,9 +479,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.DataGridView dgvErrores;
-        private System.Windows.Forms.DataGridView dgvPalabras;
+        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataGridView dgvSintactico;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.DataGridView dgvPalabras;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataGridView dgvErrores;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ListBox listBLista;
+        private System.Windows.Forms.DataGridView dgvVariables;
     }
 }
 

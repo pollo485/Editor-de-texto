@@ -61,7 +61,8 @@ namespace Editor_de_texto
             {"imprimir",    ("PRINT",       224)},
             {"leer",        ("READ",        225)},
             {"metodo",      ("PROCEDURE",   226)},
-            {"devolver",    ("RET",         227)}
+            {"devolver",    ("RET",         227)},
+            {"llamar",      ("CALL",        228)}
         };
         Dictionary<int, string> dicErrores = new Dictionary<int, string>()
         {

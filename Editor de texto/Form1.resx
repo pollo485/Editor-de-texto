@@ -143,9 +143,9 @@ inicio
 	leer(opción);
 
 	si(opcion == 'S') iniS
-		call Sumar;
+		llamar Sumar;
 	sino
-		call Multiplicar;
+		llamar Multiplicar;
 	finS
 fin
 </value>

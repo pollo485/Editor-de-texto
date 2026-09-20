@@ -116,10 +116,12 @@ namespace Editor_de_texto
             var tablasSint = objSintactico.RecorrerSintactico(tablaTokens, tablaErrores);
             DataTable tablaSintactica = tablasSint.Item1;
             tablaErrores = tablasSint.Item2;
+            DataTable tablaVariables = tablasSint.Item3;
 
             dgvPalabras.DataSource = tablaTokens;    
             dgvErrores.DataSource = tablaErrores;   
             dgvSintactico.DataSource = tablaSintactica; 
+            dgvVariables.DataSource = tablaVariables;
         }
     }
 }
