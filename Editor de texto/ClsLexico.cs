@@ -150,7 +150,7 @@ namespace Editor_de_texto
                         estado = 0;
                         palabra = "";
                     }
-                    else if (estado == 103 || estado == 104)
+                    else if (estado == 103 || estado == 104 || estado == 105 || estado == 106)
                     {
                         palabra += caracterActual;
                         token = estado;

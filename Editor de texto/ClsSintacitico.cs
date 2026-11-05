@@ -91,7 +91,9 @@ namespace Editor_de_texto
             {427, "Variable no declarada"},
             {428, "Tipo de valor no coincide"},
             {429, "Metodo no declarado"},
-            {430, "Operacion no valida"}
+            {430, "Operacion no valida"},
+            {431, "La variable ya ha sido declarada anteriormente"},
+            {432, "El metodo ya ha sido declarado anteriormente"}
         };
 
         Dictionary<int, string> dicTokensSintacticos = new Dictionary<int, string>()
@@ -109,26 +111,41 @@ namespace Editor_de_texto
             {310, "Incremento"},
             {311, "Decremento"},
             {312, "Fin metodo principal"},
-            {313, "Fin condicional"},      
-            {314, "Fin ciclo"},            
-            {315, "Inicio de variables"},  
+            {313, "Fin condicional"},
+            {314, "Fin ciclo"},
+            {315, "Inicio de variables"},
             {316, "Inicio de bloque principal"},
             {317, "Llamada de metodo"}
         };
 
         Dictionary<int, int> dicCierres = new Dictionary<int, int>()
         {
-            {313, 302},    
-            {314, 304},    
-            {309, 307},   
-            {312, 316}    
+            {313, 302},
+            {314, 304},
+            {309, 307},
+            {312, 316}
         };
 
         Dictionary<int, int> dicAperturas = new Dictionary<int, int>()
         {
-            {204, 302},   
-            {207, 304},   
-            {226, 307}    
+            {204, 302},
+            {207, 304},
+            {226, 307}
+        };
+        List<string> listaPostFija = new List<string>();
+        Stack<int> pilaNumeracionIf = new Stack<int>();
+        Stack<int> pilaNumeracionWhile = new Stack<int>();
+
+        Dictionary<string, int> prioridadOperadores = new Dictionary<string, int>()
+        {
+            {"=", 1},
+            {"||", 2}, {"o", 2},
+            {"&&", 2}, {"y", 2},
+            {"==", 3}, {"<>", 3}, {"<", 3}, {">", 3}, {"<=", 3}, {">=", 3},
+            {"+", 4}, {"-", 4},
+            {"*", 5}, {"/", 5}, {"%", 5},
+            {"^", 6},
+            {"!", 7}, {"no", 7}
         };
 
         const int tokenOC = 206;
@@ -160,7 +177,7 @@ namespace Editor_de_texto
         DataTable tablaSint;
         DataTable tablaError;
         DataTable tablaVariables;
-
+        bool yaDeclarada;
         public Tuple<DataTable, DataTable, DataTable> RecorrerSintactico(DataTable tablaLexico, DataTable tablaErrores)
         {
             tablaSint = new DataTable();
@@ -245,25 +262,37 @@ namespace Editor_de_texto
                             partes = palabra.Split(' ');
                             variableTipo = partes[0];
                             variableNombre = partes[1];
-                            if (partes[0] == "entero")
+
+                            yaDeclarada = tablaVariables.Rows.Cast<DataRow>()
+                                .Any(f => f["Variable"].ToString() == variableNombre);
+
+                            if (yaDeclarada)
                             {
-                                tipoInicial = "int";
-                                tablaVariables.Rows.Add(partes[1], partes[0], "0");
+                                tablaError.Rows.Add(431, variableNombre,
+                                    $"{dicErrores[431]} ({variableNombre})", renglonInicio, columnaInicio);
                             }
-                            else if (partes[0] == "doble")
+                            else
                             {
-                                tipoInicial = "double";
-                                tablaVariables.Rows.Add(partes[1], partes[0], "0.0");
-                            }
-                            else if (partes[0] == "cadena")
-                            {
-                                tipoInicial = "string";
-                                tablaVariables.Rows.Add(partes[1], partes[0], "\"\"");
-                            }
-                            else if (partes[0] == "caracter")
-                            {
-                                tipoInicial = "char";
-                                tablaVariables.Rows.Add(partes[1], partes[0], "' '");
+                                if (partes[0] == "entero")
+                                {
+                                    tipoInicial = "int";
+                                    tablaVariables.Rows.Add(partes[1], partes[0], "0");
+                                }
+                                else if (partes[0] == "doble")
+                                {
+                                    tipoInicial = "double";
+                                    tablaVariables.Rows.Add(partes[1], partes[0], "0.0");
+                                }
+                                else if (partes[0] == "cadena")
+                                {
+                                    tipoInicial = "string";
+                                    tablaVariables.Rows.Add(partes[1], partes[0], "\"\"");
+                                }
+                                else if (partes[0] == "caracter")
+                                {
+                                    tipoInicial = "char";
+                                    tablaVariables.Rows.Add(partes[1], partes[0], "' '");
+                                }
                             }
                         }
                         else if (estado == 307)
@@ -271,13 +300,25 @@ namespace Editor_de_texto
                             partes = palabra.Split(' ');
                             variableTipo = partes[0];
                             variableNombre = partes[1];
-                            tablaVariables.Rows.Add(partes[1], "Proc", " ");
+
+                            yaDeclarada = tablaVariables.Rows.Cast<DataRow>()
+                                .Any(f => f["Variable"].ToString() == variableNombre);
+
+                            if (yaDeclarada)
+                            {
+                                tablaError.Rows.Add(432, variableNombre,
+                                    $"{dicErrores[432]} ({variableNombre})", renglonInicio, columnaInicio);
+                            }
+                            else
+                            {
+                                tablaVariables.Rows.Add(partes[1], "Proc", " ");
+                            }
                         }
                         tablaSint.Rows.Add(estado, descripcion, palabra, renglonInicio, columnaInicio);
                         estado = 0;
                         palabra = "";
                         pilaParentesis.Clear();
-                        
+
                     }
                     if (estado == 600)
                     {
@@ -306,11 +347,261 @@ namespace Editor_de_texto
             return new Tuple<DataTable, DataTable, DataTable>(tablaSint, tablaError, tablaVariables);
         }
 
-        public DataTable ErroresSemanticos(DataTable tablaLexico,DataTable tablaErrores)
+        public DataTable ErroresSemanticos(DataTable tablaSintactico, DataTable tablaVarsRecibida, DataTable tablaErrores)
         {
+            tablaError = tablaErrores;
+            tablaVariables = tablaVarsRecibida;
 
+            foreach (DataRow fila in tablaSintactico.Rows)
+            {
+                int tokenSint = Convert.ToInt32(fila["Token"]);
+                string palabra = fila["Palabra"].ToString();
+                int renglon = Convert.ToInt32(fila["Renglon"]);
+                int columna = Convert.ToInt32(fila["Columna"]);
 
+                List<string> partes = DividirRespetandoComillas(palabra);
+
+                switch (tokenSint)
+                {
+                    case 301: // Igualacion
+                        ValidarIgualacion(partes, renglon, columna);
+                        break;
+                    case 302: // Condicional
+                    case 304: // Ciclo while
+                        ValidarCondicion(partes, renglon, columna);
+                        break;
+                    case 317: // Llamada de metodo
+                        ValidarLlamada(partes, renglon, columna);
+                        break;
+                    case 305: // escribir
+                    case 306: // leer
+                        ValidarVariableSimple(partes, renglon, columna);
+                        break;
+                    case 310: // Incremento
+                    case 311: // Decremento
+                        ValidarIncrementoDecremento(partes, renglon, columna);
+                        break;
+                }
+            }
             return tablaError;
+        }
+        private void ValidarIncrementoDecremento(List<string> partes, int renglon, int columna)
+        {
+            int idxAbre = partes.IndexOf("(");
+            int idxCierra = partes.IndexOf(")");
+            if (idxAbre == -1 || idxCierra == -1) return;
+
+            for (int k = idxAbre + 1; k < idxCierra; k++)
+            {
+                string tok = partes[k];
+                if (tok == ",") continue;
+                if (InferirTipoLiteral(tok) != null) continue;
+
+                bool declarada;
+                BuscarTipoVariable(tok, out declarada);
+                if (!declarada)
+                {
+                    tablaError.Rows.Add(427, tok, $"{dicErrores[427]} ({tok})", renglon, columna);
+                    tipoInicial = "double";
+                }
+            }
+        }
+
+        private void ValidarIgualacion(List<string> partes, int renglon, int columna)
+        {
+            if (partes.Count < 3) return;
+            string variable = partes[0];
+
+            bool declarada;
+            string tipoVar = BuscarTipoVariable(variable, out declarada);
+
+            if (!declarada)
+            {
+                tablaError.Rows.Add(427, variable, $"{dicErrores[427]} ({variable})", renglon, columna);
+                tipoInicial = "double";
+            }
+            else
+            {
+                tipoInicial = tipoVar;
+            }
+
+            for (int k = 2; k < partes.Count; k++)
+            {
+                string tok = partes[k];
+                if (tok == ";" || tok == "(" || tok == ")" || EsOperador(tok)) continue;
+
+                string tipoLit = InferirTipoLiteral(tok);
+                if (tipoLit != null)
+                {
+                    if (tipoLit != tipoInicial)
+                        tablaError.Rows.Add(428, tok, $"{dicErrores[428]} ({tok})", renglon, columna);
+                }
+                else
+                {
+                    bool declOtra;
+                    string tipoOtra = BuscarTipoVariable(tok, out declOtra);
+                    if (!declOtra)
+                    {
+                        tablaError.Rows.Add(427, tok, $"{dicErrores[427]} ({tok})", renglon, columna);
+                        tipoInicial = "double";
+                    }
+                    else if (tipoOtra != tipoInicial)
+                    {
+                        tablaError.Rows.Add(428, tok, $"{dicErrores[428]} ({tok})", renglon, columna);
+                    }
+                }
+            }
+        }
+
+        private void ValidarCondicion(List<string> partes, int renglon, int columna)
+        {
+            int idxAbre = partes.IndexOf("(");
+            int idxCierra = partes.LastIndexOf(")"); 
+            if (idxAbre == -1 || idxCierra == -1 || idxCierra <= idxAbre + 1) return;
+
+            string[] expresion = partes.Skip(idxAbre + 1).Take(idxCierra - idxAbre - 1).ToArray();
+            string tipoEsperado = null;
+
+            foreach (string tok in expresion)
+            {
+                if (tok == ";" || tok == "(" || tok == ")" || EsOperador(tok)) continue;
+
+                string tipoLit = InferirTipoLiteral(tok);
+                if (tipoLit != null)
+                {
+                    if (tipoEsperado != null && tipoLit != tipoEsperado)
+                        tablaError.Rows.Add(428, tok, $"{dicErrores[428]} ({tok})", renglon, columna);
+                }
+                else
+                {
+                    bool declOtra;
+                    string tipoVar = BuscarTipoVariable(tok, out declOtra);
+                    if (!declOtra)
+                    {
+                        tablaError.Rows.Add(427, tok, $"{dicErrores[427]} ({tok})", renglon, columna);
+                        tipoInicial = "double";
+                        tipoEsperado = tipoEsperado ?? "double";
+                    }
+                    else
+                    {
+                        if (tipoEsperado != null && tipoVar != tipoEsperado)
+                            tablaError.Rows.Add(428, tok, $"{dicErrores[428]} ({tok})", renglon, columna);
+                        tipoEsperado = tipoEsperado ?? tipoVar;
+                        tipoInicial = tipoVar;
+                    }
+                }
+            }
+        }
+        private List<string> DividirRespetandoComillas(string texto)
+        {
+            List<string> tokens = new List<string>();
+            bool enComillasDobles = false, enComillasSimples = false;
+            string actual = "";
+
+            foreach (char c in texto)
+            {
+                if (c == '"' && !enComillasSimples)
+                {
+                    actual += c;
+                    if (enComillasDobles) { tokens.Add(actual); actual = ""; }
+                    enComillasDobles = !enComillasDobles;
+                    continue;
+                }
+                if (c == '\'' && !enComillasDobles)
+                {
+                    actual += c;
+                    if (enComillasSimples) { tokens.Add(actual); actual = ""; }
+                    enComillasSimples = !enComillasSimples;
+                    continue;
+                }
+                if (enComillasDobles || enComillasSimples) { actual += c; continue; }
+
+                if (c == ' ')
+                {
+                    if (actual != "") { tokens.Add(actual); actual = ""; }
+                }
+                else actual += c;
+            }
+            if (actual != "") tokens.Add(actual);
+            return tokens;
+        }
+
+        private void ValidarLlamada(List<string> partes, int renglon, int columna)
+        {
+            if (partes.Count < 2) return;
+            string metodo = partes[1];
+            if (!EsMetodoDeclarado(metodo))
+                tablaError.Rows.Add(429, metodo, $"{dicErrores[429]} ({metodo})", renglon, columna);
+        }
+
+        private void ValidarVariableSimple(List<string> partes, int renglon, int columna)
+        {
+            int idxAbre = partes.IndexOf("(");
+            int idxCierra = partes.IndexOf(")");
+            if (idxAbre == -1 || idxCierra == -1 || idxCierra <= idxAbre + 1) return;
+
+            for (int k = idxAbre + 1; k < idxCierra; k++)
+            {
+                string tok = partes[k];
+                if (InferirTipoLiteral(tok) != null) continue;
+
+                bool declarada;
+                BuscarTipoVariable(tok, out declarada);
+                if (!declarada)
+                {
+                    tablaError.Rows.Add(427, tok, $"{dicErrores[427]} ({tok})", renglon, columna);
+                    tipoInicial = "double";
+                }
+            }
+        }
+        private string MapearTipoDeclarado(string tipoPalabra)
+        {
+            switch (tipoPalabra)
+            {
+                case "entero": return "int";
+                case "doble": return "double";
+                case "cadena": return "string";
+                case "caracter": return "char";
+                default: return null;
+            }
+        }
+
+        private string BuscarTipoVariable(string nombre, out bool declarada)
+        {
+            foreach (DataRow fila in tablaVariables.Rows)
+            {
+                if (fila["Variable"].ToString() == nombre)
+                {
+                    declarada = true;
+                    return MapearTipoDeclarado(fila["Tipo"].ToString());
+                }
+            }
+            declarada = false;
+            return null;
+        }
+
+        private bool EsMetodoDeclarado(string nombre)
+        {
+            foreach (DataRow fila in tablaVariables.Rows)
+                if (fila["Variable"].ToString() == nombre && fila["Tipo"].ToString() == "Proc")
+                    return true;
+            return false;
+        }
+
+        private string InferirTipoLiteral(string tok)
+        {
+            if (string.IsNullOrEmpty(tok)) return null;
+            if (tok.Length >= 2 && tok.StartsWith("\"") && tok.EndsWith("\"")) return "string";
+            if (tok.Length >= 2 && tok.StartsWith("'") && tok.EndsWith("'")) return "char";
+            if (tok.Contains(".") && double.TryParse(tok, out _)) return "double";
+            if (int.TryParse(tok, out _)) return "int";
+            return null;
+        }
+
+        private bool EsOperador(string tok)
+        {
+            string[] ops = { "+", "-", "*", "/", "%", "^", "&&", "y", "||", "o", "!", "no", "==", "<>", "<", ">", "<=", ">=" };
+            return Array.IndexOf(ops, tok) >= 0;
         }
 
         void CerrarRenglon()
@@ -344,14 +635,14 @@ namespace Editor_de_texto
 
         int ValidarParentesis(int siguiente)
         {
-            if (tokenActual == 115) 
+            if (tokenActual == 115)
             {
                 pilaParentesis.Push(115);
             }
-            else if (tokenActual == 116) 
+            else if (tokenActual == 116)
             {
                 if (pilaParentesis.Count == 0)
-                    return 420;    
+                    return 420;
                 pilaParentesis.Pop();
             }
 
@@ -363,24 +654,191 @@ namespace Editor_de_texto
 
         int ValidarBloque(int tokenSint)
         {
-            if (dicCierres.ContainsValue(tokenSint))      
+            if (dicCierres.ContainsValue(tokenSint))
             {
                 pilaBloques.Push(tokenSint);
             }
-            else if (tokenSint == 303)                 
+            else if (tokenSint == 303)
             {
                 pilaBloques.Push(303);
             }
-            else if (dicCierres.ContainsKey(tokenSint))    
+            else if (dicCierres.ContainsKey(tokenSint))
             {
                 if (pilaBloques.Count > 0)
                 {
                     int tope = pilaBloques.Pop();
                     if (tokenSint == 313 && tope == 303 && pilaBloques.Count > 0)
-                        pilaBloques.Pop(); 
+                        pilaBloques.Pop();
                 }
             }
             return tokenSint;
+        }
+        public List<string> GenerarListaPostFija(DataTable tablaSintactico)
+        {
+            listaPostFija = new List<string>();
+            pilaNumeracionIf.Clear();
+            pilaNumeracionWhile.Clear();
+            contIf = 0;
+            contWhile = 0;
+
+            foreach (DataRow fila in tablaSintactico.Rows)
+            {
+                int tokenSint = Convert.ToInt32(fila["Token"]);
+                string palabra = fila["Palabra"].ToString();
+                List<string> partes = DividirRespetandoComillas(palabra);
+
+                switch (tokenSint)
+                {
+
+                    case 309:
+                        listaPostFija.Add("metodo_finM");
+                        break;
+
+                    case 301:
+                        {
+                            List<string> tokensExpr = partes.Where(t => t != ";").ToList();
+                            ProcesarExpresionPostfija(tokensExpr);
+                        }
+                        break;
+
+                    case 310:
+                    case 311:
+                        {
+                            string variable = partes[2];
+                            string cantidad = partes[4];
+
+                            listaPostFija.Add(tokenSint == 310 ? "inc" : "dec");
+                            listaPostFija.Add(variable);
+                            listaPostFija.Add(cantidad);
+                        }
+                        break;
+
+                    case 302:
+                        {
+                            contIf++;
+                            pilaNumeracionIf.Push(contIf);
+                            listaPostFija.Add($"si{contIf}");
+
+                            int idxAbre = partes.IndexOf("(");
+                            int idxCierra = partes.LastIndexOf(")");
+                            List<string> condicion = partes.Skip(idxAbre + 1).Take(idxCierra - idxAbre - 1).ToList();
+                            ProcesarExpresionPostfija(condicion);
+
+                            listaPostFija.Add($"inicioSi{contIf}");
+                        }
+                        break;
+
+                    case 303: // sino
+                        {
+                            int num = pilaNumeracionIf.Count > 0 ? pilaNumeracionIf.Peek() : contIf;
+                            listaPostFija.Add($"sino{num}");
+                        }
+                        break;
+
+                    case 313: // finS
+                        {
+                            int num = pilaNumeracionIf.Count > 0 ? pilaNumeracionIf.Pop() : contIf;
+                            listaPostFija.Add($"finsi{num}");
+                            contIf--;
+                        }
+                        break;
+
+                    case 304:
+                        {
+                            contWhile++;
+                            pilaNumeracionWhile.Push(contWhile);
+                            listaPostFija.Add($"mientras{contWhile}");
+
+                            int idxAbre = partes.IndexOf("(");
+                            int idxCierra = partes.LastIndexOf(")");
+                            List<string> condicion = partes.Skip(idxAbre + 1).Take(idxCierra - idxAbre - 1).ToList();
+                            ProcesarExpresionPostfija(condicion);
+
+                            listaPostFija.Add($"inicioMientras{contWhile}");
+                        }
+                        break;
+
+                    case 314: // finC
+                        {
+                            int num = pilaNumeracionWhile.Count > 0 ? pilaNumeracionWhile.Pop() : contWhile;
+                            listaPostFija.Add($"finmientras{num}");
+                            contWhile--;
+                        }
+                        break;
+
+                    case 305:
+                    case 306:
+                        {
+                            int idxAbre = partes.IndexOf("(");
+                            int idxCierra = partes.IndexOf(")");
+                            listaPostFija.Add(partes[0]);
+                            for (int k = idxAbre + 1; k < idxCierra; k++)
+                                listaPostFija.Add(partes[k]);
+                        }
+                        break;
+                    case 307: // Metodo (inicio)
+                        {
+                            listaPostFija.Add("metodo");
+                            listaPostFija.Add($"metodo_{partes[1]}"); 
+                            listaPostFija.Add("metodo_iniM");
+                        }
+                        break;
+
+                    case 317:
+                        listaPostFija.Add("llamar");
+                        listaPostFija.Add(partes[1]);
+                        break;
+
+                    case 316:
+                        listaPostFija.Add("inicio");
+                        break;
+
+                    case 312:
+                        listaPostFija.Add("fin");
+                        break;
+                }
+            }
+
+            return listaPostFija;
+        }
+        private void ProcesarExpresionPostfija(List<string> tokens)
+        {
+            Stack<string> pilaOperadores = new Stack<string>();
+
+            foreach (string tok in tokens)
+            {
+                if (tok == "(")
+                {
+                    pilaOperadores.Push(tok);
+                }
+                else if (tok == ")")
+                {
+                    while (pilaOperadores.Count > 0 && pilaOperadores.Peek() != "(")
+                        listaPostFija.Add(pilaOperadores.Pop());
+                    if (pilaOperadores.Count > 0)
+                        pilaOperadores.Pop();
+                }
+                else if (prioridadOperadores.ContainsKey(tok))
+                {
+                    int prioridadActual = prioridadOperadores[tok];
+                    while (pilaOperadores.Count > 0 &&
+                           pilaOperadores.Peek() != "(" &&
+                           prioridadOperadores.ContainsKey(pilaOperadores.Peek()) &&
+                           prioridadOperadores[pilaOperadores.Peek()] >= prioridadActual)
+                    {
+                        listaPostFija.Add(pilaOperadores.Pop());
+                    }
+                    pilaOperadores.Push(tok);
+                }
+                else
+                {
+                    listaPostFija.Add(tok); // aiudaaaaaaaaa
+                }
+            }
+
+
+            while (pilaOperadores.Count > 0)
+                listaPostFija.Add(pilaOperadores.Pop());
         }
 
         public int ObtenerColumna(int tokenAct)

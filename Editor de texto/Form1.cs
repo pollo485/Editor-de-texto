@@ -118,10 +118,26 @@ namespace Editor_de_texto
             tablaErrores = tablasSint.Item2;
             DataTable tablaVariables = tablasSint.Item3;
 
-            dgvPalabras.DataSource = tablaTokens;    
-            dgvErrores.DataSource = tablaErrores;   
-            dgvSintactico.DataSource = tablaSintactica; 
+            tablaErrores = objSintactico.ErroresSemanticos(tablaSintactica, tablaVariables, tablaErrores);
+
+            dgvPalabras.DataSource = tablaTokens;
+            dgvErrores.DataSource = tablaErrores;
+            dgvSintactico.DataSource = tablaSintactica;
             dgvVariables.DataSource = tablaVariables;
+            listBLista.DataSource = objSintactico.GenerarListaPostFija(tablaSintactica);
+        }
+
+        private void depurarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsEnsamblador objEnsamblar = new clsEnsamblador();
+            if (dgvErrores.Rows.Count == 1)
+            {
+                richTEnsamblador.Text = objEnsamblar.GenerarCodigo((DataTable)dgvVariables.DataSource, (List<string>)listBLista.DataSource);
+            }
+            else
+            {
+                richTEnsamblador.Text = "";
+            }
         }
     }
 }

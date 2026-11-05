@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsEnsamblador.cs" />
     <Compile Include="ClsLexico.cs" />
     <Compile Include="ClsSintacitico.cs" />
     <Compile Include="Form1.cs">

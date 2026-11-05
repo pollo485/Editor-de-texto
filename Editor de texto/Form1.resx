@@ -129,25 +129,34 @@
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>cuchara
 	entero x;
+	entero b;
+	entero z;
 	entero suma;
-	entero resta;
+	caracter opcion;
+
 metodo Sumar iniM
-	suma = 5 + y2;
-finM
-metodo restar iniM
-	resta = x-y2;
+	suma = x + 5;
 finM
 
 inicio
 	imprimir("Dime la opcion");
-	leer(opción);
+	leer(opcion);
 
 	si(opcion == 'S') iniS
 		llamar Sumar;
 	sino
-		llamar Multiplicar;
+		suma = 0;
 	finS
+
+	si(x + 3 &lt; b y b &lt; z) iniS
+		llamar Sumar;
+	finS
+
+	mientras(x &lt; 10 o x == 3) iniC
+		inc(x, 1);
+	finC
 fin
+
 </value>
   </data>
 </root>
